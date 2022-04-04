@@ -63,7 +63,85 @@ For wireless and WWAN, make sure the card is not blocked with rfkill.
 
 **See: https://wiki.archlinux.org/title/Iwd#iwctl
 
+Check if internet connection is working:
+```sh
+ping archlinux.org
+``` 
 
+### update system clock
+```sh
+timedatectl set-ntp true
+```
+
+### partition the disks
+https://wiki.archlinux.org/title/Fdisk
+
+change `X` with disk letter to be parted
+
+```sh
+fdisk /dev/sdX
+```
+
+**Remember:** for dual boot it's necessary to `create a EFI partition` to install grub boot manager
+
+```
+--> fdisk /dev/the_disk_to_be_partitioned (sdX)
+    
+	m)  --> help menu
+	l)  --> list know partition types
+	n)  --> add a new partition
+	    for example - select partition number: 19 Linux Swap (create swapfile is preefered)
+        for example - select partition number: 23 Linux root (x86-64)
+	    for example - select partition number: 41 Linux home    
+    w)  --> write the created partition table on selected disk (sdx)
+```
+----> Note: create a root / partition and a home /home partion is strongly recommended
+
+### format the partitions
+```sh
+mkfs.ext4 /dev/root_partition
+mkfs.ext4 /dev/home_partition
+mkfs.fat -F 32 /dev/efi_system_partition
+```
+
+If you created a partition for swap, initialize it with mkswap(8):
+```sh
+mkswap /dev/swap_partition
+```
+
+### Create SwapFile (prefer this)
+https://wiki.archlinux.org/title/Swap#Swap_file
+
+Creating swapfile (if you dont create a swap partition)
+The performance of a swapfile or a swappartition is not diferent
+```sh
+dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
+```
+Note: Using dd to allocate a swap file is the most portable solution, see swapon(8) Files with holes for details.
+
+Set the right permissions (a world-readable swap file is a huge local vulnerability):
+```sh
+chmod 600 /swapfile
+```
+
+After creating the correctly sized file, format it to swap:
+```sh
+mkswap /swapfile
+```
+
+Activate the swap file:
+```sh
+swapon /swapfile
+```
+
+Finally, edit the fstab configuration to add an entry for the swap file:
+```sh
+vim /etc/fstab
+```
+add this:
+```sh
+/swapfile none swap defaults 0 0
+```
 ### install some necessary packages for next steps
 ```sh
 pacman -S vim efibootmgr grub
