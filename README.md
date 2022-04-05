@@ -309,9 +309,14 @@ passwd
 ## Boot loader (GRUB)
 https://wiki.archlinux.org/title/GRUB
 
-### install grub efi file on `/boot` mounted partition
-```sh
+### install grub efi file on `/boot` mounted ÙEFI partition`
+```sh`
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+```
+
+(this command under for MBR bootable usb media)
+```sh`
+grub-install --target=i386-pc /devsdX
 ```
 
 ### generate `grub.cfg` file
