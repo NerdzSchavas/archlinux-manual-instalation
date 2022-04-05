@@ -107,10 +107,51 @@ mkfs.ext4 /dev/home_partition
 mkfs.fat -F 32 /dev/efi_system_partition
 ```
 
-If you created a partition for swap, initialize it with mkswap(8):
+### mount the file systems
+
+Mount the root volume to /mnt. For example, if the root volume is /dev/root_partition:
 ```sh
-mkswap /dev/swap_partition
+mount /dev/root_partition /mnt
 ```
+
+For UEFI systems, mount the EFI system partition:
+```sh
+mount --mkdir /dev/efi_system_partition /mnt/boot
+```
+
+### install essential packages
+```sh
+pacstrap /mnt base linux linux-firmware
+```
+
+### mount others endpoints in `/mnt/endpoint` in this case is `/home`
+```sh`
+mount /dev/home_partition /mnt/home
+```
+`
+## Instalation
+
+```sh
+arch-chroot /mnt
+```
+
+### select yout favorite mirrors -> choose that with small latency for example
+```sh
+vim /etc/pacman.d/mirrorlist
+```
+
+````
+[Brazilian Mirrors]
+	Server = http://mirror.ufscar.br/archlinux/$repo/os/$arch
+	Server = http://archlinux.c3sl.ufpr.br/$repo/os/$arch
+	Server = http://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+	Server = https://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+	Server = http://linorg.usp.br/archlinux/$repo/os/$arch
+	Server = http://pet.inf.ufsc.br/mirrors/archlinux/$repo/os/$arch
+	Server = http://archlinux.pop-es.rnp.br/$repo/os/$arch
+	Server = http://mirror.ufam.edu.br/archlinux/$repo/os/$arch
+	Server = http://br.mirror.archlinux-br.org/$repo/os/$arch
+````
 
 ### Create SwapFile (prefer this)
 https://wiki.archlinux.org/title/Swap#Swap_file
@@ -132,6 +173,11 @@ After creating the correctly sized file, format it to swap:
 mkswap /swapfile
 ```
 
+If you created a partition for swap, initialize it with mkswap(8):
+```sh
+mkswap /dev/swap_partition
+```
+
 Activate the swap file:
 ```sh
 swapon /swapfile
@@ -146,39 +192,12 @@ add this:
 /swapfile none swap defaults 0 0
 ```
 
-### mount the file systems
-
-Mount the root volume to /mnt. For example, if the root volume is /dev/root_partition:
-```sh
-mount /dev/root_partition /mnt
-mount /dev/home_partition /mnt/home
-mount /dev/uefi_partition /mnt/boot
-```
-`
-## Instalation
 
 ### install some necessary packages for this moment
 ```sh
 pacman -S vim grub efibootmgr os-prober
 ```
 
-### (otional) -> select yout favorite mirrors -> choose that with small latency for example
-```sh
-vim /etc/pacman.d/mirrorlist
-```
-
-````
-[Brazilian Mirrors]
-	Server = http://mirror.ufscar.br/archlinux/$repo/os/$arch
-	Server = http://archlinux.c3sl.ufpr.br/$repo/os/$arch
-	Server = http://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
-	Server = https://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
-	Server = http://linorg.usp.br/archlinux/$repo/os/$arch
-	Server = http://pet.inf.ufsc.br/mirrors/archlinux/$repo/os/$arch
-	Server = http://archlinux.pop-es.rnp.br/$repo/os/$arch
-	Server = http://mirror.ufam.edu.br/archlinux/$repo/os/$arch
-	Server = http://br.mirror.archlinux-br.org/$repo/os/$arch
-````
 ### Install essential packages
 https://wiki.archlinux.org/title/Kernel
 
