@@ -1,6 +1,6 @@
 # Arch Linux MANUAL Installation (step-by-step)
 A fast guide to install archlinux manually (from scratch) ->
-based in: https://wiki.archlinux.org/title/installation_guide
+based on: https://wiki.archlinux.org/title/installation_guide
 
 ### download arch linux from official repo
 https://archlinux.org/download/
@@ -47,6 +47,8 @@ ls /sys/firmware/efi/efivars
 *if apear things in this command then OK! is UEFI mode.
 
 ### connect to internet
+https://wiki.archlinux.org/title/Network_configuration
+
 Ensure your network interface is listed and enabled, for example:
 ```sh
 ip link
@@ -142,9 +144,51 @@ add this:
 ```sh
 /swapfile none swap defaults 0 0
 ```
-### install some necessary packages for next steps
+
+### mount the file systems
+
+Mount the root volume to /mnt. For example, if the root volume is /dev/root_partition:
 ```sh
-pacman -S vim efibootmgr grub
+mount /dev/root_partition /mnt
+mount /dev/home_partition /mnt/home
+mount /dev/uefi_partition /mnt/boot
+```
+`
+## Instalation
+
+### install some necessary packages for this moment
+```sh
+pacman -S vim grub efibootmgr os-prober
+```
+
+### (otional) -> select yout favorite mirrors -> choose that with small latency for example
+```sh
+vim /etc/pacman.d/mirrorlist
+```
+
+````
+[Brazilian Mirrors]
+	Server = http://mirror.ufscar.br/archlinux/$repo/os/$arch
+	Server = http://archlinux.c3sl.ufpr.br/$repo/os/$arch
+	Server = http://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+	Server = https://www.caco.ic.unicamp.br/archlinux/$repo/os/$arch
+	Server = http://linorg.usp.br/archlinux/$repo/os/$arch
+	Server = http://pet.inf.ufsc.br/mirrors/archlinux/$repo/os/$arch
+	Server = http://archlinux.pop-es.rnp.br/$repo/os/$arch
+	Server = http://mirror.ufam.edu.br/archlinux/$repo/os/$arch
+	Server = http://br.mirror.archlinux-br.org/$repo/os/$arch
+````
+### Install essential packages
+https://wiki.archlinux.org/title/Kernel
+
+
+Use the pacstrap script to install the base package, Linux kernel and firmware for common hardwares
+```sh
+pacstrap /mnt base linux linux-firmware
+```
+(alternatively) -> zen kernel
+```
+pacstrap /mnt base linux-zen linux-zen-headers
 ```
 
 ### install grub efi file on `/boot` mounted partition
