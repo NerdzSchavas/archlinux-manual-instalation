@@ -231,6 +231,18 @@ add this:
 /swapfile none swap defaults 0 0
 ```
 
+### time zone
+Set the time zone:
+
+(model)
+```sh
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+```
+
+(example)
+```sh
+ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
+```
 
 ### install grub efi file on `/boot` mounted partition
 ```sh
