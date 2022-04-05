@@ -94,7 +94,7 @@ fdisk /dev/sdX
 	l)  --> list know partition types
 	n)  --> add a new partition
 	    for example - select partition number: 19 Linux Swap (create swapfile is preefered)
-        for example - select partition number: 23 Linux root (x86-64)
+	    for example - select partition number: 23 Linux root (x86-64)
 	    for example - select partition number: 41 Linux home    
     w)  --> write the created partition table on selected disk (sdx)
 ```
