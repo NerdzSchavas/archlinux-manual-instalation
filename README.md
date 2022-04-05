@@ -293,6 +293,23 @@ vim /etc/hosts
 If the system has a permanent IP address, it should be used instead of 127.0.1.1.
 Complete the network configuration for the newly installed environment, that may include installing suitable network management software.
 
+### installing some essential packages:
+
+Note: to search for a package by name, use: pacman -Ss <AUR_package_name> 
+```sh
+pacman -Syyuu
+```
+
+some essential packages (for me)
+```sh
+pacman -S 
+		syslinux sudo fakeroot patch make wget curl man openvpn \
+		networkmanager pulseaudio-alsa ntfs-3g dosfstools \
+		mtools exfat-utils un{rar,zip} zip p7zip \
+		base-devel multilib-devel git man openssh \
+		plasma sddm packagekit-qt5 xorg xorg-server \
+		alacrity dolphin kate vlc xarchiver
+```
 
 ### install grub efi file on `/boot` mounted partition
 ```sh
