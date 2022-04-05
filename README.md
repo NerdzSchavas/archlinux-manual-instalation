@@ -10,7 +10,7 @@ https://archlinux.org/download/
 pacman-key -v archlinux-<version>-.iso.sig
 ``` 
 
-### create usb media
+## Create usb media
 https://wiki.archlinux.org/title/USB_flash_installation_medium
 
 replace `X` with your sdX usb media `/dev/sdX` 
@@ -119,7 +119,7 @@ For UEFI systems, mount the EFI system partition:
 mount --mkdir /dev/efi_system_partition /mnt/boot
 ```
 
-### install essential packages
+## Pacstrap install essential packages
 https://wiki.archlinux.org/title/Kernel
 
 Use the pacstrap script to install the base package, Linux kernel and firmware for common hardwares
@@ -137,7 +137,7 @@ pacstrap /mnt base linux-zen linux-zen-headers
 mount /dev/home_partition /mnt/home
 ```
 
-### generate system `/etc/fstab` for automount
+## Generate system `/etc/fstab` for automount
 
 Generate an fstab file (use -U or -L to define by UUID or labels, respectively):
 ```sh
@@ -231,7 +231,7 @@ add this:
 /swapfile none swap defaults 0 0
 ```
 
-### time zone
+## Time zone
 Set the time zone:
 
 (model)
@@ -250,7 +250,7 @@ hwclock --systohc
 ```
 This command assumes the hardware clock is set to UTC. See System time#Time standard for details.
 
-### localization
+## Localization
 Edit /etc/locale.gen and uncomment 
 ```
 en_`US.UTF-8 UTF-8 
@@ -273,7 +273,7 @@ vim /etc/vconsole.conf
 KEYMAP=br-abnt2
 ```
 
-### network host configuration
+## Network host configuration
 
 Create the hostname file:
 ```sh
@@ -293,7 +293,7 @@ vim /etc/hosts
 If the system has a permanent IP address, it should be used instead of 127.0.1.1.
 Complete the network configuration for the newly installed environment, that may include installing suitable network management software.
 
-### initramfs
+## Initramfs
 Creating a new initramfs is usually not required, because mkinitcpio was run on installation of the kernel package with pacstrap.
 For LVM, system encryption or RAID, modify mkinitcpio.conf(5) and recreate the initramfs image:
 ```sh
@@ -319,7 +319,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
-### installing some essential packages:
+## Installing some essential packages:
 
 Note: to search for a package by name, use: pacman -Ss <AUR_package_name> 
 ```sh
