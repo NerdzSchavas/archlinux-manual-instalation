@@ -293,6 +293,32 @@ vim /etc/hosts
 If the system has a permanent IP address, it should be used instead of 127.0.1.1.
 Complete the network configuration for the newly installed environment, that may include installing suitable network management software.
 
+### initramfs
+Creating a new initramfs is usually not required, because mkinitcpio was run on installation of the kernel package with pacstrap.
+For LVM, system encryption or RAID, modify mkinitcpio.conf(5) and recreate the initramfs image:
+```sh
+mkinitcpio -Pv
+```
+
+### root password
+Set the root password:
+```
+passwd
+```
+
+## Boot loader (GRUB)
+https://wiki.archlinux.org/title/GRUB
+
+### install grub efi file on `/boot` mounted partition
+```sh
+grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+```
+
+### generate `grub.cfg` file
+```sh
+grub-mkconfig -o /boot/grub/grub.cfg
+```
+
 ### installing some essential packages:
 
 Note: to search for a package by name, use: pacman -Ss <AUR_package_name> 
@@ -306,18 +332,7 @@ pacman -S
 		syslinux sudo fakeroot patch make wget curl man openvpn \
 		networkmanager pulseaudio-alsa ntfs-3g dosfstools \
 		mtools exfat-utils un{rar,zip} zip p7zip \
-		base-devel multilib-devel git man openssh \
+		base-devel multilib-devel git openssh \
 		plasma sddm packagekit-qt5 xorg xorg-server \
 		alacrity dolphin kate vlc xarchiver
 ```
-
-### install grub efi file on `/boot` mounted partition
-```sh
-grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-```
-
-### generate `grub.cfg` file
-```sh
-grub-mkconfig -o /boot/grub/grub.cfg
-```
-
