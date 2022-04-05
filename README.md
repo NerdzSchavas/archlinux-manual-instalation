@@ -244,6 +244,35 @@ ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime
 ```
 
+### run hwclock to generate `etc/adjtime`:
+```sh
+hwclock --systohc
+```
+This command assumes the hardware clock is set to UTC. See System time#Time standard for details.
+
+### localization
+Edit /etc/locale.gen and uncomment 
+```
+en_`US.UTF-8 UTF-8 
+pt_BR.UTF-8 UTF-8
+```
+and other needed locales. Generate the locales by running:
+```sh
+locale-gen
+```
+
+Create the locale.conf file, and set the LANG variable accordingly:
+```sh
+vim /etc/locale.conf`
+LANG=en_US.UTF-8
+```
+
+If you set the keyboard layout, make the changes persistent in vconsole.conf(5):
+```sh
+vim /etc/vconsole.conf
+KEYMAP=br-abnt2
+```
+
 ### install grub efi file on `/boot` mounted partition
 ```sh
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
