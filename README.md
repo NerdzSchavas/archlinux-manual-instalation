@@ -319,6 +319,29 @@ grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 grub-mkconfig -o /boot/grub/grub.cfg
 ```
 
+## Create user and enable services on boot
+```sh
+#-------------------------------------------------
+# Create main user
+#-------------------------------------------------
+useradd -m -g wheel -G users -s /bin/bash <yourusername>
+passwd -d root
+passwd -d <yourusername>
+groupadd plugdev
+usermod -aG plugdev <yourusername>
+
+#-------------------------------------------------
+# Add all real users to sudoers
+#-------------------------------------------------
+echo '%wheel ALL=(ALL) ALL' | sudo tee -a ./etc/sudoers > /dev/null
+
+#-------------------------------------------------
+# Enable services on boot
+#-------------------------------------------------
+sudo systemctl --root=. enable NetworkManager
+sudo systemctl --root=. enable sddm
+```
+
 ## Installing some essential packages:
 
 Note: to search for a package by name, use: pacman -Ss <AUR_package_name> 
@@ -329,10 +352,83 @@ pacman -Syyuu
 some essential packages (for me)
 ```sh
 pacman -S 
-		syslinux sudo fakeroot patch make wget curl man openvpn \
-		networkmanager pulseaudio-alsa ntfs-3g dosfstools \
-		mtools exfat-utils un{rar,zip} zip p7zip \
-		base-devel multilib-devel git openssh \
-		plasma sddm packagekit-qt5 xorg xorg-server \
-		alacrity dolphin kate vlc xarchiver
+	syslinux sudo fakeroot patch make wget curl man openvpn \
+	networkmanager pulseaudio-alsa ntfs-3g dosfstools \
+	mtools exfat-utils un{rar,zip} zip p7zip \
+	base-devel multilib-devel git openssh \
+	plasma sddm packagekit-qt5 xorg xorg-server \
+	alacrity dolphin kate vlc xarchiver
+```
+
+## Install the especific Vulkan Video Driver (Intel, Nvidia or AMD)
+https://wiki.archlinux.org/title/Xorg_(Portugu%C3%AAs)
+
+https://wiki.archlinux.org/title/KDE_(Portugu%C3%AAs)
+
+https://www.edivaldobrito.com.br/como-instalar-o-kde-plasma-5-no-arch-linux-e-derivados/
+
+-> What is my Video Hardware Manufacturer?
+
+https://www.cyberciti.biz/faq/linux-tell-which-graphics-vga-card-installed/
+
+```sh
+lspci
+
+(Intel)
+pacman -S vulkan-intel intel-media-driver intel-ucode xf86-video-intel
+
+(AMD)
+	RADV (part of Mesa project)
+	pacman -S vulkan-radeon
+
+	AMDVLK Open (maintained by AMD)
+	pacman -S amdvlk
+
+	MDVLK Closed (maintained by AMD)
+	pacman -S vulkan-amdgpu-proAUR 
+
+(Nvidia)
+	pacman -S nvidia-utils
+```
+
+--------------------
+
+## It's time to Reboot 
+(if all steps done looks good) and start the new archlinux system
+
+--------------------
+
+## Softwares
+```sh
+pacman -S 
+	firefox plasma-browser-integration firefox-ublock-origin\
+	git gitg ufw meld
+	docker docker-compose
+```
+
+-> for docker use only:
+```sh
+	sudo systemctl enable docker
+	sudo systemctl start docker
+	sudo groupadd docker
+	sudo usermod -aG docker <youruser>
+	reboot
+	docker run hello-world
+```
+
+## More optional own tasty programs (maybe some dependences are needed):
+
+(WPS Office)
+```sh
+git clone https://aur.archlinux.org/wps-office.git
+makepkg
+pacman -U <wps-office.*.zst>
+pacman -U <wps-office-mime.*.zst>
+```
+
+(Google Chrome)
+```sh
+git clone https://aur.archlinux.org/google-chrome.git
+makepkg
+pacman -U <google-chrome.*.zst>
 ```
