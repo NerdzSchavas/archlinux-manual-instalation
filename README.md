@@ -125,10 +125,10 @@ pacstrap /mnt base linux linux-firmware
 ```
 
 ### mount others endpoints in `/mnt/endpoint` in this case is `/home`
-```sh`
+```sh
 mount /dev/home_partition /mnt/home
 ```
-`
+
 ## Instalation
 
 ```sh
