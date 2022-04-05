@@ -120,8 +120,16 @@ mount --mkdir /dev/efi_system_partition /mnt/boot
 ```
 
 ### install essential packages
+https://wiki.archlinux.org/title/Kernel
+
+Use the pacstrap script to install the base package, Linux kernel and firmware for common hardwares
 ```sh
 pacstrap /mnt base linux linux-firmware
+```
+
+(alternatively) -> zen kernel
+```sh
+pacstrap /mnt base linux-zen linux-zen-headers
 ```
 
 ### mount others endpoints in `/mnt/endpoint` in this case is `/home`
@@ -159,7 +167,7 @@ https://wiki.archlinux.org/title/Swap#Swap_file
 Creating swapfile (if you dont create a swap partition)
 The performance of a swapfile or a swappartition is not diferent
 ```sh
-dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
+dd if=/dev/zero of=/swapfile bs=1M count=4096 status=progress
 ```
 Note: Using dd to allocate a swap file is the most portable solution, see swapon(8) Files with holes for details.
 
@@ -183,6 +191,11 @@ Activate the swap file:
 swapon /swapfile
 ```
 
+### install some necessary packages for this moment
+```sh
+pacman -S vim grub efibootmgr os-prober
+```
+
 Finally, edit the fstab configuration to add an entry for the swap file:
 ```sh
 vim /etc/fstab
@@ -190,25 +203,6 @@ vim /etc/fstab
 add this:
 ```sh
 /swapfile none swap defaults 0 0
-```
-
-
-### install some necessary packages for this moment
-```sh
-pacman -S vim grub efibootmgr os-prober
-```
-
-### Install essential packages
-https://wiki.archlinux.org/title/Kernel
-
-
-Use the pacstrap script to install the base package, Linux kernel and firmware for common hardwares
-```sh
-pacstrap /mnt base linux linux-firmware
-```
-(alternatively) -> zen kernel
-```
-pacstrap /mnt base linux-zen linux-zen-headers
 ```
 
 ### generate system `/etc/fstab` for automount
