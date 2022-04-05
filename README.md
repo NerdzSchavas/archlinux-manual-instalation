@@ -137,6 +137,32 @@ pacstrap /mnt base linux-zen linux-zen-headers
 mount /dev/home_partition /mnt/home
 ```
 
+### generate system `/etc/fstab` for automount
+
+Generate an fstab file (use -U or -L to define by UUID or labels, respectively):
+```sh
+genfstab -U /mnt >> /mnt/etc/fstab
+```
+Check the resulting /mnt/etc/fstab file, and edit it in case of errors. 
+Important: may you need add mannualy other partitions to fstab file. For example the /home partition for this tutorial
+--> https://wiki.archlinux.org/title/persitent_block_device_naming
+
+#### (optionaly) -> mounting from fstab file
+
+Mounting home partition using fstab:
+```sh
+	-> list UUID and /dev partitions)
+	lsblk -f
+
+	vim /mnt/etc/fstab
+	
+	-> set UUID manualy on fstab file	
+	UUID=xxxx /home ext4 defaults 0 2
+
+	-> mount using fstab file
+	mount -a
+```
+
 ## Instalation
 
 ```sh
@@ -205,31 +231,6 @@ add this:
 /swapfile none swap defaults 0 0
 ```
 
-### generate system `/etc/fstab` for automount
-
-Generate an fstab file (use -U or -L to define by UUID or labels, respectively):
-```sh
-genfstab -U /mnt >> /mnt/etc/fstab
-```
-Check the resulting /mnt/etc/fstab file, and edit it in case of errors. 
-Important: may you need add mannualy other partitions to fstab file. For example the /home partition for this tutorial
---> https://wiki.archlinux.org/title/persitent_block_device_naming
-
-#### (optionaly) -> mounting from fstab file
-
-Mounting home partition using fstab:
-```sh
-	-> list UUID and /dev partitions)
-	lsblk -f
-
-	vim /mnt/etc/fstab
-	
-	-> set UUID manualy on fstab file	
-	UUID=xxxx /home ext4 defaults 0 2
-
-	-> mount using fstab file
-	mount -a
-```
 
 ### install grub efi file on `/boot` mounted partition
 ```sh
