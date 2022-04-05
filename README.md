@@ -12,6 +12,7 @@ pacman-key -v archlinux-<version>-.iso.sig
 
 ### create usb media
 https://wiki.archlinux.org/title/USB_flash_installation_medium
+
 replace `X` with your sdX usb media `/dev/sdX` 
 
 create with `cat`
