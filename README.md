@@ -66,11 +66,9 @@ For wireless and WWAN, make sure the card is not blocked with rfkill.
 
 **See: https://wiki.archlinux.org/title/Iwd#iwctl
 
-#### 1) IWCTL
+#### 1) iwctl
 
 connecting to Wifi device using iwctl:
-
-### Connect to a network
 
 Fast shorcut command (need know SSID and Wifi password previously)
 ```sh
@@ -107,15 +105,16 @@ Finally, to connect to a network:
 
 If your network is configured such that you can connect to it by pressing a button (Wikipedia:Wi-Fi Protected Setup), check first that your network device is also capable of using this setup procedure.
 
+```sh
 [iwd]# wsc list
+```
 
 Then, provided that your device appeared in the above list,
 
+```sh
 [iwd]# wsc device push-button
-
-
-
 ```
+
 Check if internet connection is working:
 ```sh
 ping archlinux.org
