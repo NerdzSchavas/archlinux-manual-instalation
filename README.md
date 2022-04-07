@@ -71,25 +71,25 @@ For wireless and WWAN, make sure the card is not blocked with rfkill.
 connecting to Wifi device using iwctl:
 
 Fast shorcut command (need know SSID and Wifi password previously)
+
 ```sh
 $ iwctl --passphrase passphrase station device connect SSID
 ```
 
 First, if you do not know your wireless device name, list all Wi-Fi devices:
 
-```s
+```sh
 [iwd]# device list
+[iwd]# device wlan0 show
 ```
 
-```sh
 Then, to initiate a scan for networks (note that this command will not output anything):
-```
-
-[iwd]# station device scan
 
 ```sh
-You can then list all available networks:
+[iwd]# station device scan
 ```
+
+You can then list all available networks:
 
 ```sh
 [iwd]# station device get-networks
