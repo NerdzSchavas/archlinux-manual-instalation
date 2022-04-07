@@ -2,6 +2,8 @@
 A fast guide to install archlinux manually (from scratch) ->
 based on: https://wiki.archlinux.org/title/installation_guide
 
+based on: https://omarine.org/blog/preparing-to-install-grub-on-the-gpt-drive/
+
 ### download arch linux from official repo
 https://archlinux.org/download/
 
@@ -326,8 +328,7 @@ KEYMAP=br-abnt2
 
 Create the hostname file:
 ```sh
-vim /etc/hostname
-myhostname
+echo hostname > /etc/hostname
 ```
 
 Add matching entries to hosts(5):
