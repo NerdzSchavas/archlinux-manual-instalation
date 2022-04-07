@@ -73,7 +73,7 @@ connecting to Wifi device using iwctl:
 Fast shorcut command (need know SSID and Wifi password previously)
 
 ```sh
-$ iwctl --passphrase passphrase station device connect SSID
+iwctl --passphrase passphrase station device connect SSID
 ```
 
 First, if you do not know your wireless device name, list all Wi-Fi devices:
