@@ -345,6 +345,7 @@ Complete the network configuration for the newly installed environment, that may
 ## Initramfs
 Creating a new initramfs is usually not required, because mkinitcpio was run on installation of the kernel package with pacstrap.
 For LVM, system encryption or RAID, modify mkinitcpio.conf(5) and recreate the initramfs image:
+
 ```sh
 mkinitcpio -Pv
 ```
@@ -359,7 +360,7 @@ passwd
 https://wiki.archlinux.org/title/GRUB
 
 ### install grub efi file on `/boot` mounted ÙEFI partition`
-```sh`
+```sh
 grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 ```
 
