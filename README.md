@@ -384,17 +384,6 @@ passwd -d root
 passwd -d <yourusername>
 groupadd plugdev
 usermod -aG plugdev <yourusername>
-
-#-------------------------------------------------
-# Add all real users to sudoers
-#-------------------------------------------------
-echo '%wheel ALL=(ALL) ALL' | sudo tee -a ./etc/sudoers > /dev/null
-
-#-------------------------------------------------
-# Enable services on boot
-#-------------------------------------------------
-sudo systemctl --root=. enable NetworkManager
-sudo systemctl --root=. enable sddm
 ```
 
 ## Installing some essential packages:
@@ -414,6 +403,21 @@ pacman -S
 	plasma sddm packagekit-qt5 xorg xorg-server \
 	alacrity dolphin kate vlc xarchiver
 ```
+
+### add username to sudoers and enable boot `sddm` and `networkmanager`
+
+```
+#-------------------------------------------------
+# Add all real users to sudoers
+#-------------------------------------------------
+echo '%wheel ALL=(ALL) ALL' | sudo tee -a ./etc/sudoers > /dev/null
+
+#-------------------------------------------------
+# Enable services on boot
+#-------------------------------------------------
+sudo systemctl --root=. enable NetworkManager
+sudo systemctl --root=. enable sddm
+
 
 ## Install the especific Vulkan Video Driver (Intel, Nvidia or AMD)
 https://wiki.archlinux.org/title/Xorg_(Portugu%C3%AAs)
